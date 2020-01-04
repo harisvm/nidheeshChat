@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "664767460972",
+    "firebase_url": "https://gapp-6b22f.firebaseio.com",
+    "project_id": "gapp-6b22f",
+    "storage_bucket": "gapp-6b22f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664767460972:android:5235fc1eeeeeddf3de4a49",
+        "android_client_info": {
+          "package_name": "com.ndk.gapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "664767460972-a0j63tmdniq9p0oj067g5s683p53ql1h.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ndk.gapp",
+            "certificate_hash": "e426dcf444e2c5ea5735c0940cac63b9e9f3a77e"
+          }
+        },
+        {
+          "client_id": "664767460972-7cml9ro7rp9h56cfpaj5ti4f0ttsskj9.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDNyXnvSo54eCmjZ68vXm0EChCpkxrHbxM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "664767460972-7cml9ro7rp9h56cfpaj5ti4f0ttsskj9.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
