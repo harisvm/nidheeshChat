@@ -2,6 +2,8 @@ package com.ndk.gapp;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
+import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Spinner;
 import android.widget.Toast;
@@ -13,6 +15,7 @@ import androidx.appcompat.widget.AppCompatSpinner;
 import androidx.appcompat.widget.Toolbar;
 
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.ChildEventListener;
@@ -27,17 +30,18 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class LocationActivity extends AppCompatActivity {
+public class LocationActivity extends AppCompatActivity implements BottomNavigationView.OnNavigationItemSelectedListener {
     AppCompatSpinner spinner;
     private FirebaseDatabase mFirebaseDatabase;
     private FirebaseStorage mFirebaseStorage;
-    List<Model_Location> td;
+    ArrayList<Model_Location> td;
     private FirebaseAuth mfirebaseAuth;
     private FirebaseAuth.AuthStateListener mAuthstateListener;
     private DatabaseReference mLocationDbReference;
     private ChildEventListener mChildEventListener;
 
     Model_Location LocationInfo;
+    private String LocattionSelected;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,22 +51,44 @@ public class LocationActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         mfirebaseAuth = FirebaseAuth.getInstance();
 
-         spinner = (AppCompatSpinner) findViewById(R.id.Spnr_location);
+        spinner = (AppCompatSpinner) findViewById(R.id.Spnr_location);
 
         // Spinner click listener
         //spinner.setOnItemSelectedListener((AdapterView.OnItemSelectedListener) this);
         mFirebaseStorage = FirebaseStorage.getInstance();
-        mFirebaseDatabase=FirebaseDatabase.getInstance();
-        mLocationDbReference= mFirebaseDatabase.getReference().child("db_location");
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mLocationDbReference = mFirebaseDatabase.getReference().child("db_location");
 
-        td= new ArrayList<Model_Location>();
+        BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener = null;
+        BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
+
+        navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
+
+        td = new ArrayList<Model_Location>();
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                //if (td != null && !td.isEmpty()) {
+                LocattionSelected = td.get(position).getLocname();
+                // priority_id = Project_proirity.get(position).getprioity_Id();
+                //}
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+
+
+        });
         //FirebaseDatabase database = FirebaseDatabase.getInstance();
         //DatabaseReference myRef = database.getReference("db_Location");
-       // myRef.child("Id").setValue(1);
+        // myRef.child("Id").setValue(1);
         //myRef.child("Location").setValue("White Field");
         ///myRef.child("latitude").setValue("12.9698");
-       // myRef.child("logitude").setValue("77.7500");
-       // myRef.child("Name").setValue("Nidheesh");
+        // myRef.child("logitude").setValue("77.7500");
+        // myRef.child("Name").setValue("Nidheesh");
 
 /*
 
@@ -81,8 +107,6 @@ public class LocationActivity extends AppCompatActivity {
 
        // mMessageEditText.setText("");
         mLocationDbReference.addChildEventListener(mChildEventListener);*/
-
-
 
 
         mAuthstateListener = new FirebaseAuth.AuthStateListener() {
@@ -122,8 +146,8 @@ public class LocationActivity extends AppCompatActivity {
         };
 
 
-
     }
+
     public void addChildEventListener() {
 
 
@@ -150,44 +174,51 @@ public class LocationActivity extends AppCompatActivity {
 
                 }*/
                 //Toast.makeText(LocationActivity.this, "eddsddsdd"+friendlyMessage.getId(), Toast.LENGTH_SHORT).show();
-               // Log.v("msggfhgfhfg",""+ td);
-
-
+                // Log.v("msggfhgfhfg",""+ td);
+                td.clear();
+                Model_Location ml = new Model_Location();
                 for (DataSnapshot childDataSnapshot : dataSnapshot.getChildren()) {
                     //Log.v("Main",""+ childDataSnapshot.getKey().indexOf(1)); //displays the key for the node
 
                     // td.add(td1.getValue(Model_Location.class));
-                    Model_Location ml = new Model_Location();
+
                     //ml.setLocname(childDataSnapshot.getValue().toString());
-                    if (childDataSnapshot.getKey().equals("id"))
-                    {
+                    if (childDataSnapshot.getKey().equals("id")) {
                         ml.setId(String.valueOf(childDataSnapshot.getValue()));
-                     }
-                    else if (childDataSnapshot.getKey().equals("locname")) {
+                    } else if (childDataSnapshot.getKey().equals("locname")) {
                         ml.setLocname(String.valueOf(childDataSnapshot.getValue()));
-                    }
-                    else if (childDataSnapshot.getKey().equals("log")) {
+                    } else if (childDataSnapshot.getKey().equals("log")) {
                         ml.setLog(String.valueOf(childDataSnapshot.getValue()));
                     }
-
-
-                td.add(ml);
-
-
-
-
-                    Log.v("msg",""+td);   //gives the value for given keyname
+                    td.add(ml);
                 }
 
+                CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, td);
+                spinner.setAdapter(customAdapter);
 
-                for(Model_Location td1 : td){
+
+                //Log.v("msg",""+td);   //gives the value for given keyname
+
+
+                for (Model_Location td1 : td) {
                     //Model_Location ml =(Model_Location) singleSnapshot.getValue();
                     //ml.setId(singleSnapshot.getKey().indexOf(1));
-                    Toast.makeText(LocationActivity.this, ""+td1.getLocname(), Toast.LENGTH_SHORT).show();
+
+                    Log.v("msg", "" + td1.getLocname());
+                    //Toast.makeText(LocationActivity.this, ""+td1.getId(), Toast.LENGTH_SHORT).show();
 
                 }
+
+                //Spinner spin = (Spinner) findViewById(R.id.simpleSpinner);
+                //spinner.setOnItemSelectedListener(this);
+                int flag = 1;
+
+
+                //android.R.layout.simple_spinner_item, spinner_datas);
+                //spinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
                 //Toast.makeText(LocationActivity.this, ""+friendlyMessage, Toast.LENGTH_SHORT).show();
-               // mMessageAdapter.add(friendlyMessage);
+                // mMessageAdapter.add(friendlyMessage);
             }
 
             public ArrayList<Model_Location> getListaPedido() {
@@ -222,4 +253,22 @@ public class LocationActivity extends AppCompatActivity {
 
         mLocationDbReference.addChildEventListener(mChildEventListener);
     }
-   }
+
+
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.navigation_home:
+
+                return true;
+            case R.id.navigation_dashboard:
+
+                return true;
+            case R.id.navigation_notifications:
+
+
+                return true;
+        }
+        return false;
+    }
+}
