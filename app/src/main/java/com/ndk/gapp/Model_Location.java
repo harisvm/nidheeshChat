@@ -61,6 +61,12 @@ public class Model_Location extends ArrayList {
         this.status = status;
     }
 
+    @Override
+    public String toString() {
+        return getLocname();
+
+    }
+
 
 
 }

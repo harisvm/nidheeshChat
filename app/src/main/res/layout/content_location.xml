@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
     android:layout_height="match_parent">
     <androidx.appcompat.widget.AppCompatSpinner
         android:id="@+id/Spnr_location"
@@ -11,5 +13,19 @@
         android:layout_height="50dp">
 
     </androidx.appcompat.widget.AppCompatSpinner>
+<LinearLayout
+    android:layout_gravity="bottom"
+  android:gravity="bottom"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="71dp"
+        app:itemIconSize="20dp"
+        app:itemIconTint="@color/colorWhite"
+        app:menu="@menu/location_menu"
+        android:background="@color/colorred" />
+</LinearLayout>
 </LinearLayout>
